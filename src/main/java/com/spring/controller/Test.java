@@ -1,4 +1,4 @@
-package com.spring.jinwoo;
+package com.spring.controller;
 
 import java.sql.Connection;
 
