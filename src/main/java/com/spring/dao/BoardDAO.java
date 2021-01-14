@@ -10,4 +10,10 @@ public interface BoardDAO {
 
 	public List<BoardVO> list() throws Exception;
 	
+	public BoardVO read(int bno) throws Exception;
+	
+	public void update(BoardVO boardVO) throws Exception;
+	
+	public void delete(int bno) throws Exception;
+	
 }

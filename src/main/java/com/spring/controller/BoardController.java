@@ -25,9 +25,10 @@ public class BoardController {
 	@RequestMapping(value="/board/writeView", method=RequestMethod.GET)
 	public void writeView() throws Exception{
 		logger.info("writeView");
+		// void 타입으로 반환값 섮으면 메소드 이름으로 된 jsp 자동으로 찾음
 	}
 	
-	// 게시판 글 작성 구현
+	// 게시판 글 작성 로직
 	@RequestMapping(value="/board/write", method=RequestMethod.POST)
 	public String write(BoardVO boardVO) throws Exception{
 		logger.info("write");
@@ -36,6 +37,7 @@ public class BoardController {
 		return "redirect:/";
 	}
 	
+	// 게시글 목록
 	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public String list(Model model) throws Exception{
 		logger.info("list");
@@ -44,5 +46,43 @@ public class BoardController {
 		
 		return "board/list";
 	}
-
+	
+	// 게시글 상세보기
+	@RequestMapping(value="/readView", method=RequestMethod.GET)
+	public String read(BoardVO boardVO, Model model) throws Exception{
+		logger.info("read");
+		
+		model.addAttribute("read", service.read(boardVO.getBno()));
+		
+		return "board/readView";
+	}
+	
+	// 게시판 수정 화면
+	@RequestMapping(value="/updateView", method=RequestMethod.GET)
+	public String updateView(BoardVO boardVO, Model model) throws Exception{
+		logger.info("udateView");
+	
+		model.addAttribute("update", service.read(boardVO.getBno()));
+		
+		return "board/updateView";
+	}
+	
+	// 게시판 수정 로직
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(BoardVO boardVO) throws Exception{
+		logger.info("update");
+		
+		service.update(boardVO);
+		
+		return "redirect:/board/list";
+	}
+	
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
+	public String delete(BoardVO boardVO) throws Exception{
+		logger.info("delete");
+		
+		service.delete(boardVO.getBno());
+		
+		return "redirect:/board/list";
+	}
 }
