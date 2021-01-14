@@ -12,7 +12,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		// 무조건 bno 값 받아주기 위한 장치
+		// bno 값 저장한 form 지정
 		var formObj = $("form[name='readForm']");
 		
 		//수정
@@ -24,9 +24,14 @@
 		
 		// 삭제
 		$(".delete_btn").on("click", function(){
+			var deleteYN = confirm("삭제하시겠습니까?");
+			if(deleteYN == true){
+				 
 			formObj.attr("action", "/board/delete");
 			formObj.attr("method", "post");
 			formObj.submit();
+
+			}
 		})
 		
 		// 취소
@@ -52,26 +57,26 @@
 		<section id="container">
 			<!-- 수정, 삭제 버튼 클릭하면 hidden type 방식으로 bno 값 넘겨주기 위한 form -->
 			<form name="readForm" role="form" method="post">
-				<input type="hidden" id="bno" name="bno" value="${read.bno}"/>
+				<input type="hidden" id="bno" name="bno" value="${read.bno}" readonly="readonly"/>
 			</form>
 				<table>
 					<tbody>
 						<tr>
 							<td>
 								<label for="bno">글 번호</label>
-								<input type="text" id="bno" name="bno" value="${read.bno}" />
+								<input type="text" id="bno" name="bno" value="${read.bno}" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<label for="title">제목</label>
-								<input type="text" id="title" name="title" value="${read.title}" />
+								<input type="text" id="title" name="title" value="${read.title}" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<label for="content">내용</label>
-								<textarea id="content" name="content"><c:out
+								<textarea id="content" name="content" readonly="readonly"><c:out
 										value="${read.content}"
 									/></textarea>
 							</td>
@@ -80,14 +85,14 @@
 							<td>
 								<label for="writer">작성자</label>
 								<input type="text" id="writer" name="writer"
-									value="${read.writer}"
+									value="${read.writer}" readonly="readonly"
 								/>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<label for="regdate">작성날짜</label>
-								<fmt:formatDate value="${read.regdate}" pattern="yyyy-MM-dd" />
+								<fmt:formatDate value="${read.regdate}" pattern="yyyy-MM-dd"/>
 							</td>
 						</tr>
 					</tbody>
