@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dao.BoardDAO;
 import com.spring.vo.BoardVO;
-import com.spring.vo.Criteria;
+import com.spring.vo.SearchCriteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -23,14 +23,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> list(Criteria cri) throws Exception {
+	public List<BoardVO> list(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.list(cri);
+		return dao.list(scri);
 	}
 	
 	@Override
-	public int listCount() throws Exception{
-		return dao.listCount();
+	public int listCount(SearchCriteria scri) throws Exception{
+		return dao.listCount(scri);
 	}
 
 	@Override

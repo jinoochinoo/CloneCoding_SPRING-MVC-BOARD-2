@@ -20,7 +20,7 @@
 	<!--  
 		페이징 위한 row_number() 생성 -> 출력 게시물 갯수만큼 between 
 	-->	
-	<select id="listPage" resultType="com.spring.vo.BoardVO" parameterType="com.spring.vo.Criteria">
+	<select id="listPage" resultType="com.spring.vo.BoardVO" parameterType="com.spring.vo.SearchCriteria">
 		SELECT  BNO, 
 		        TITLE, 
 		        CONTENT,
@@ -33,20 +33,32 @@
 		               WRITER, 
 		               REGDATE, 
 		               ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
-		         FROM MP_BOARD 
+		         FROM MP_BOARD
+		         WHERE 1=1 
+		         	<include refid="search"></include>
 		                       ) MP
 		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		ORDER BY BNO DESC
 	</select>
  
  	<!-- 게시글 총 갯수 -->
- 	<select id="listCount" resultType="int">
-	<![CDATA[
+ 	<select id="listCount" parameterType="com.spring.vo.SearchCriteria" resultType="int">
 		SELECT COUNT(BNO)
-		  FROM MP_BOARD
-		 WHERE BNO > 0
-	]]>
+		   FROM MP_BOARD
+		   WHERE 1=1
+		<include refid="search"></include>	
+		   AND BNO > 0
 	</select>
+ 
+ 	<!-- 재사용 위한 SQL 조각 -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND WRITER LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if>
+		</if>
+	</sql>
  
  	<select id="read" parameterType="int" resultType="com.spring.vo.BoardVO">
 		SELECT	BNO
@@ -70,7 +82,6 @@
 		  FROM MP_BOARD
 		 WHERE BNO = #{bno}
 	</delete>
-	
 
  
 </mapper>

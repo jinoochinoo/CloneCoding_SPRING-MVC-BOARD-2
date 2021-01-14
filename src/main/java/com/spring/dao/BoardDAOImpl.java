@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.spring.vo.BoardVO;
-import com.spring.vo.Criteria;
+import com.spring.vo.SearchCriteria;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -23,11 +23,17 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public List<BoardVO> list(Criteria cri) throws Exception {
+	public List<BoardVO> list(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("boardMapper.listPage", cri);
+		return sqlSession.selectList("boardMapper.listPage", scri);
 	}
 
+	@Override
+	public int listCount(SearchCriteria scri) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.listCount", scri);
+	}
+	
 	@Override
 	public BoardVO read(int bno) throws Exception {
 		// TODO Auto-generated method stub
@@ -46,11 +52,7 @@ public class BoardDAOImpl implements BoardDAO{
 		sqlSession.delete("boardMapper.delete", bno);
 	}
 
-	@Override
-	public int listCount() throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("boardMapper.listCount");
-	}
+
 
 
 	
