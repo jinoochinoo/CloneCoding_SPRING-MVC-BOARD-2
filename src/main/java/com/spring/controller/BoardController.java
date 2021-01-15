@@ -178,9 +178,7 @@ public class BoardController {
 		@RequestMapping(value="/replyDelete", method = RequestMethod.POST)
 		public String replyDelete(ReplyVO replyVO, SearchCriteria scri, RedirectAttributes rttr) throws Exception {
 			logger.info("reply delete post");
-			
-			System.out.println("컨트롤러 도착)" + replyVO.toString());
-			
+
 			replyService.deleteReply(replyVO);
 			
 			rttr.addAttribute("bno", replyVO.getBno());

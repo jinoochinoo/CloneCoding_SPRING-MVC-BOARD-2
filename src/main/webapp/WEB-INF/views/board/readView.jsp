@@ -83,7 +83,7 @@
 		<section id="container">
 			<!-- 수정, 삭제 버튼 클릭하면 hidden type 방식으로 bno 값 넘겨주기 위한 form -->
 			<form name="readForm" role="form" method="post">
-				<input type="hidden" id="bno" name="bno" value="${read.bno}" readonly="readonly"/>
+				<input type="hidden" id="bno" name="bno" value="${read.bno}"/>
 			<!-- 목록 클릭하면 검색했던 값 그대로 돌려주기 위해 저장 -->	
 				<input type="hidden" id="page" name="page" value="${scri.page}"> 
 				<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
