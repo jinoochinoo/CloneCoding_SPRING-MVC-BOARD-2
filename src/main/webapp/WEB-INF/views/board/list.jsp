@@ -33,6 +33,7 @@
 						<th>제목</th>
 						<th>작성자</th>
 						<th>등록일</th>
+						<th>조회수</th>						
 					</tr>
 
 					<!-- forEach 기능은 받은 ${list} 값만큼 반복 -->
@@ -50,6 +51,9 @@
 							</td>
 							<td>
 								<fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd" />
+							</td>
+							<td>
+								<c:out value="${list.hit}"/>
 							</td>
 						</tr>
 					</c:forEach>

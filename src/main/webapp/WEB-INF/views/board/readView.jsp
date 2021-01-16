@@ -67,6 +67,13 @@
 				+ "&rno="+$(this).attr("data-rno");
 		});
 	})
+	
+	function fn_fileDown(fileNo){
+		var formObj = $("form[name='readForm']");
+		$("#file_no").attr("value", fileNo);
+		formObj.attr("action", "/board/fileDown");
+		formObj.submit();
+	}
 
 </script>
 <body>
@@ -89,6 +96,7 @@
 				<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
 				<input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
 				<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
+				<input type="hidden" id="file_no" name="file_no" value="">
 			</form>
 				<table>
 					<tbody>
@@ -126,6 +134,14 @@
 								<fmt:formatDate value="${read.regdate}" pattern="yyyy-MM-dd"/>
 							</td>
 						</tr>
+						<tr>
+							<td class="form-group" style="border: 1px solid #dbdbdb;">
+							<label>파일목록</label>
+								<c:forEach var="file" items="${file}">
+									<a href="#" onclick="fn_fileDown('${file.FILE_NO}'); return false;">${file.ORG_FILE_NAME}</a>(${file.FILE_SIZE}kb)<br>
+								</c:forEach>
+							</td>
+						</tr>						
 					</tbody>
 				</table>
 		</section>

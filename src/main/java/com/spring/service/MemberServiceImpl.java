@@ -43,4 +43,10 @@ public class MemberServiceImpl implements MemberService {
 		return dao.passChk(memberVO);
 	}
 
+	@Override
+	public int idChk(MemberVO memberVO) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.idChk(memberVO);
+	}
+
 }
