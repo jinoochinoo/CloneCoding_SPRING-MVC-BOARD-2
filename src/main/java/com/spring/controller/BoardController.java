@@ -94,7 +94,7 @@ public class BoardController {
 	@RequestMapping(value="/updateView", method=RequestMethod.GET)
 	public String updateView(BoardVO boardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) throws Exception{
 		logger.info("udateView");
-	
+
 		model.addAttribute("update", service.read(boardVO.getBno()));
 		model.addAttribute("scri", scri);
 		

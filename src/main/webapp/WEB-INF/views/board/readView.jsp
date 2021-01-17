@@ -1,14 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
 <html>
 <head>
 <!-- JQuery 추가 -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<title>게시판</title>
-</head>
+<meta charset="UTF-8">
+<title>JINWOO's MVC Board</title>
+<style>
+</style>
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -41,10 +44,14 @@
 			location.href = "/board/list?page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}";
 		})
 		
+		// 댓글 작성
 		$(".replyWriteBtn").on("click", function(){
+			var replyTN = confirm("댓글 다시겠습니까?");
+			if(replyTN == true){
 			var formObj = $("form[name='replyForm']");
 			formObj.attr("action", "/board/replyWrite");
 			formObj.submit();
+			}
 		});
 		
 		// 댓글 수정
@@ -76,18 +83,12 @@
 	}
 
 </script>
+</head>
 <body>
-
-	<div id="root">
-		<header>
-			<h1>게시판</h1>
-		</header>
-		<hr />
-
-		<nav>홈 - 글 작성</nav>
-		<hr />
-
-		<section id="container">
+<div>
+	<%@include file="../layout/top.jsp"%>
+</div>
+<div>
 			<!-- 수정, 삭제 버튼 클릭하면 hidden type 방식으로 bno 값 넘겨주기 위한 form -->
 			<form name="readForm" role="form" method="post">
 				<input type="hidden" id="bno" name="bno" value="${read.bno}"/>
@@ -97,99 +98,99 @@
 				<input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
 				<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
 				<input type="hidden" id="file_no" name="file_no" value="">
-			</form>
-				<table>
-					<tbody>
-						<tr>
-							<td>
-								<label for="bno">글 번호</label>
-								<input type="text" id="bno" name="bno" value="${read.bno}" readonly="readonly"/>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="title">제목</label>
-								<input type="text" id="title" name="title" value="${read.title}" readonly="readonly"/>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="content">내용</label>
-								<textarea id="content" name="content" readonly="readonly"><c:out
-										value="${read.content}"
-									/></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="writer">작성자</label>
-								<input type="text" id="writer" name="writer"
-									value="${read.writer}" readonly="readonly"
-								/>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="regdate">작성날짜</label>
-								<fmt:formatDate value="${read.regdate}" pattern="yyyy-MM-dd"/>
-							</td>
-						</tr>
-						<tr>
-							<td class="form-group" style="border: 1px solid #dbdbdb;">
-							<label>파일목록</label>
-								<c:forEach var="file" items="${file}">
-									<a href="#" onclick="fn_fileDown('${file.FILE_NO}'); return false;">${file.ORG_FILE_NAME}</a>(${file.FILE_SIZE}kb)<br>
-								</c:forEach>
-							</td>
-						</tr>						
-					</tbody>
-				</table>
-		</section>
-		<div>
-			<button type="submit" class="update_btn">수정</button>
-			<button type="submit" class="delete_btn">삭제</button>
-			<button type="submit" class="list_btn">목록</button>
+
+
+		<table class="container col-lg-9">
+			<tr class="d-flex mb-3 text-center ">
+				<td class="p-2 flex-fill bg-info"><fmt:formatDate value="${read.regdate}" pattern="yyyy-MM-dd"/></td>
+
+				<td class="p-2 flex-fill bg-warning">${read.writer}</td>
+				<td class="p-2 flex-fill bg-primary">${read.bno}</td>
+			</tr>
+			<tr>
+				<td class="form-control text-center">${read.title}</td>
+			</tr>
+			<tr>
+				<td class="form-control text-center">${read.content}</td>
+			</tr>
+
+			<tr class="form-control" align="center">
+				<td class="form-group">
+					<label>파일목록</label>
+						<c:forEach var="file" items="${file}">
+							<a href="#" onclick="fn_fileDown('${file.FILE_NO}'); return false;">${file.ORG_FILE_NAME}</a>(${file.FILE_SIZE}kb)<br>
+						</c:forEach>
+				</td>
+			</tr>
+		</table>
+
+		<div class="container col-lg-7 text-center">
+			<button type="submit" class="update_btn btn-dark mb-3">수정</button>
+			<button type="submit" class="delete_btn btn-warning mb-3">삭제</button>
+			<button type="submit" class="list_btn btn-primary mb-3">목록</button>
 		</div>
-		
-		<!-- 댓글 -->
-		
-		<div id="reply">
-		  <ol class="replyList">
-		    <c:forEach items="${replyList}" var="replyList">
-		      <li>
-		        <p>
-		        작성자 : ${replyList.writer}<br />
-		        작성 날짜 :  <fmt:formatDate value="${replyList.regdate}" pattern="yyyy-MM-dd" />
-		        </p>
-		
-		        <p>${replyList.content}</p>
-		        <div>
-				  <button type="button" class="replyUpdateBtn" data-rno="${replyList.rno}">수정</button>
-				  <button type="button" class="replyDeleteBtn" data-rno="${replyList.rno}">삭제</button>
-				</div>
-		      </li>
-		    </c:forEach>   
-		  </ol>
-		</div>
-		
-		<form name="replyForm" method="post">
-			  <input type="hidden" id="bno" name="bno" value="${read.bno}" />
-			  <input type="hidden" id="page" name="page" value="${scri.page}"> 
-			  <input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
-			  <input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
-			  <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
-			
-			  <div>
-			    <label for="writer">댓글 작성자</label><input type="text" id="writer" name="writer" />
-			    <br/>
-			    <label for="content">댓글 내용</label><input type="text" id="content" name="content" />
-			  </div>
-			  <div>
-			 	 <button type="button" class="replyWriteBtn">작성</button>
-			  </div>
 		</form>
-		
-		<hr />
+	<br />
+</div>
+	<!-- 댓글 부분 -->
+
+	<div id="reply">
+		<ol class="replyList">
+		<c:forEach var="replyList" items="${replyList}" >
+			<div class="container col-lg-8 input-group">
+
+				<div class="form-control">	${replyList.content}
+				</div>
+				<div class="input-group-prpend">
+					<span class="input-group-text"  style="display: inline-block; width: 95%; text-align: center;">${replyList.writer}	 &nbsp; 	<font size="2"  color="lightgray" style="display: inline-block; width: 95%; text-align: left;">
+					<fmt:formatDate value="${replyList.regdate}" pattern="yyyy-MM-dd" /></font></span>
+				</div>
+
+				<div class="input-group-prpend">
+				<c:if test="${sessionScope.member != null}">
+			        <div>
+					  <button type="button" class="replyUpdateBtn" data-rno="${replyList.rno}">수정</button>
+					  <button type="button" class="replyDeleteBtn" data-rno="${replyList.rno}">삭제</button>
+					</div>
+				</c:if>
+
+				</div>
+			</div>
+		</c:forEach>
+		</ol>
 	</div>
+
+	<br />
+	
+	<form name="replyForm" method="post">
+	<c:if test="${sessionScope.member != null}">
+
+		<!-- 댓글 작성시 같이 넘겨줄 정보 -->
+	  <input type="hidden" id="bno" name="bno" value="${read.bno}" />
+	  <input type="hidden" id="page" name="page" value="${scri.page}"> 
+	  <input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
+	  <input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
+	  <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
+	  <input type="hidden" id="writer" name="writer" value="${member.userId}">
+			
+		<c:if test="${sessionScope.member != null}">
+			<div class="container col-lg-7 mt-2 input-group">
+				<input type="text" class="form-control" placeholder="댓글"
+					name="content" id="content" 
+				>
+				<div class="input-group-append">
+					 <button class="replyWriteBtn btn-success mb-4" type="button">작성</button>
+				</div>
+			</div>
+		</c:if>
+		
+	</c:if>
+	
+	</form>
+	<br />
+
+<div>
+	<%@include file="../layout/bottom.jsp"%>
+</div>
 </body>
 </html>

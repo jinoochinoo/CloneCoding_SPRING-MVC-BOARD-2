@@ -3,13 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 	<head>
-		<!-- 합쳐지고 최소화된 최신 CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<!-- 부가적인 테마 -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-	 	
 	 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	 	
 	 	<title>게시판</title>
 	</head>
 	<script type="text/javascript">
@@ -72,19 +66,14 @@
  		}
 	</script>
 	<body>
-	
-		<div id="root">
-			<header>
-				<h1> 게시판</h1>
-			</header>
-			<hr />
-			 
-			<div>
-				<%@include file="nav.jsp" %>
-			</div>
-			<hr />
+<div>
+	<%@include file="../layout/top.jsp"%>
+</div>
+
+<h1 class="text-center"><span class="badge badge-secondary">게시글 수정</span></h1>
+
 			
-			<section id="container">
+			<div>
 				<form name="updateForm" role="form" method="post" action="/board/update" enctype="multipart/form-data">
 					<input type="hidden" name="bno" value="${update.bno}" readonly="readonly"/>
 					<input type="hidden" id="page" name="page" value="${scri.page}"> 
@@ -93,29 +82,20 @@
 					<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
 					<input type="hidden" id="fileNoDel" name="fileNoDel[]" value=""> 
 					<input type="hidden" id="fileNameDel" name="fileNameDel[]" value=""> 
-					<table>
+					<input type="hidden" id="writer" name="writer" value="${update.writer}">
+
+					<table class="container col-lg-9">
 						<tbody>
-							<tr>
-								<td>
-									<label for="title">제목</label><input type="text" id="title" name="title" value="${update.title}" class="chk" title="제목을 입력하세요."/>
-								</td>
-							</tr>	
-							<tr>
-								<td>
-									<label for="content">내용</label><textarea id="content" name="content" class="chk" title="내용을 입력하세요."><c:out value="${update.content}" /></textarea>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="writer">작성자</label><input type="text" id="writer" name="writer" value="${update.writer}" readonly="readonly"/>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="regdate">작성날짜</label>
-									<fmt:formatDate value="${update.regdate}" pattern="yyyy-MM-dd"/>					
-								</td>
-							</tr>
+								<tr><td>
+								<input type="text" name="title" id="title" class="chk form-control text-center"
+									placeholder="제목을 입력해주세요." title="제목을 입력하세요" value="${update.title}" required>
+								</td></tr>
+								<tr><td>
+									<textarea class="chk form-control text-center" id="content" name="content" rows="5" name="bdContent"
+										placeholder="내용을 입력해주세요" required title="내용을 입력하세요" >${update.content}
+									</textarea>
+								</td></tr>
+
 							<tr>
 								<td id="fileIndex">
 									<c:forEach var="file" items="${file}" varStatus="var">
@@ -130,14 +110,15 @@
 							</tr>
 						</tbody>			
 					</table>
-					<div>
-						<button type="button" class="update_btn">저장</button>
-						<button type="button" class="cancel_btn">취소</button>
-						<button type="button" class="fileAdd_btn">파일추가</button>
+					<div class="text-center" align="center">
+						<button type="button" class="update_btn btn-primary">저장</button>
+						<button type="button" class="cancel_btn btn-info">취소</button>
+						<button type="button" class="fileAdd_btn btn-success">파일추가</button>
 					</div>
-				</form>
-			</section>
-			<hr />
-		</div>
+			</form>
+			</div>
+<div>
+	<%@include file="../layout/bottom.jsp"%>
+</div>
 	</body>
 </html>

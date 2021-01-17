@@ -2,12 +2,7 @@
     pageEncoding="UTF-8"%>
 <html>
 	<head>
-		<!-- 합쳐지고 최소화된 최신 CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<!-- 부가적인 테마 -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-	 	
-	 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	 	
 	 	<title>게시판</title>
 	</head>
@@ -46,60 +41,51 @@
 		}
 	</script>
 	<body>
-	
-		<div id="root">
-			<header>
-				<h1> 게시판</h1>
-			</header>
-			<hr />
+
 			 
-			<div>
-				<%@include file="nav.jsp" %>
-			</div>
-			<hr />
+<div>
+	<%@include file="../layout/top.jsp"%>
+</div>
+
+<h1 class="text-center"><span class="badge badge-secondary">게시글 작성</span></h1>
+
 			
-			<section id="container">
+
 				<form name="writeForm" method="post" action="/board/write" enctype="multipart/form-data">
-					<table>
+				<input type="hidden" id="writer" name="writer" value="${member.userId}"/>
+					<table class="container col-lg-7">
 						<tbody>
 							<c:if test="${member.userId != null}">
-								<tr>
-									<td>
-										<label for="title">제목</label><input type="text" id="title" name="title" class="chk" title="제목을 입력하세요."/>
-									</td>
-								</tr>	
-								<tr>
-									<td>
-										<label for="content">내용</label><textarea id="content" name="content" class="chk" title="내용을 입력하세요."></textarea>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<label for="writer">작성자</label><input type="text" id="writer" name="writer" class="chk" title="작성자를 입력하세요." value="${member.userId}" />
-									</td>
-								</tr>
-								<tr>
-								<tr>
+								<tr><td>
+								<input type="text" name="title" id="title" class="chk form-control text-center"
+									placeholder="제목을 입력해주세요." title="제목을 입력하세요" required>
+								</td></tr>
+								<tr><td>
+									<textarea class="chk form-control text-center" id="content" name="content" rows="5" name="bdContent"
+										placeholder="내용을 입력해주세요" required title="내용을 입력하세요"
+									></textarea>
+								</td></tr>
+								
+								<tr class="form-control text-center" align="center">
 									<td id="fileIndex">
+										<button class="fileAdd_btn btn btn-info" type="button">파일추가</button>	
 									</td>
 								</tr>
 								<tr>
 									<td>						
-										<button class="write_btn" type="submit">작성</button>	
-										<button class="fileAdd_btn" type="button">파일추가</button>	
+										<button class="write_btn btn-priamry" type="submit">작성</button>	
+										<input class="cancel_btn btn-success" type="button" value="취소" onclick="window.history.back()"/>
 									</td>
 								</tr>	
-							</c:if>
-							<c:if test="${member.userId == null}">
-								<p>로그인 후에 작성하실 수 있습니다.</p>
 							</c:if>
 							
 						</tbody>			
 					</table>
 				</form>
 				
-			</section>
-			<hr />
-		</div>
+
+<div>
+	<%@include file="../layout/bottom.jsp"%>
+</div>
 	</body>
 </html>

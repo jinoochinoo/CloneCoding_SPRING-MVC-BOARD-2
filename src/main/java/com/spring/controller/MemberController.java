@@ -57,6 +57,11 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public void login() throws Exception{
+		logger.info("get login");
+	}
+	
 	@RequestMapping(value = "/login", method=RequestMethod.POST)
 	public String login(MemberVO memberVO, HttpSession session, RedirectAttributes rttr) throws Exception{
 		logger.info("post login");

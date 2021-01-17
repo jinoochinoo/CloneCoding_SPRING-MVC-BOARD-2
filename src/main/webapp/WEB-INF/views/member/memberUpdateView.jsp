@@ -3,13 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 	<head>
-		<!-- 합쳐지고 최소화된 최신 CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<!-- 부가적인 테마 -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-	 	
-	 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<title>회원가입</title>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<title>SpringMVC</title>
 	</head>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -51,28 +46,42 @@
 		})
 	</script>
 	<body>
-		<section id="container">
+<div>
+	<%@include file="../layout/top.jsp"%>
+</div>	
+<div class="container text-center">
+	<h2>회원정보 수정</h2>
+		<div class="container col-lg-6">
 			<form id="updateForm" action="/member/memberUpdate" method="post">
-				<div class="form-group has-feedback">
-					<label class="control-label" for="userId">아이디</label>
-					<input class="form-control" type="text" id="userId" name="userId" value="${member.userId}" readonly="readonly"/>
+				<div class="input-group mt-3 mb-1">
+					<div class="input-group-prpend">
+						<span class="input-group-text">아이디</span>
+					</div>
+						<input class="form-control" type="text" id="userId" name="userId" value="${member.userId}" readonly="readonly"/>
 				</div>
-				<div class="form-group has-feedback">
-					<label class="control-label" for="userPass">패스워드</label>
-					<input class="form-control" type="password" id="userPass" name="userPass" />
+				<div class="input-group mt-3 mb-1">
+					<div class="input-group-prpend">
+						<span class="input-group-text">비밀번호</span>
+					</div>
+						<input class="form-control" type="password" id="userPass" name="userPass" />
 				</div>
-				<div class="form-group has-feedback">
-					<label class="control-label" for="userName">성명</label>
-					<input class="form-control" type="text" id="userName" name="userName" value="${member.userName}"/>
+				<div class="input-group mt-3 mb-1">
+					<div class="input-group-prpend">
+						<span class="input-group-text">이름</span>
+					</div>
+						<input class="form-control" type="text" id="userName" name="userName" value="${member.userName}"/>
 				</div>
 			</form>	
 				<div class="form-group has-feedback">
-					<button class="btn btn-success" type="button" id="submit">회원정보수정</button>
+					<button class="btn btn-primary" type="button" id="submit">회원정보수정</button>
+					<a class="btn btn-success" href="/member/memberDeleteView">회원 탈퇴</a>
 					<button class="cancel btn btn-danger" type="button">취소</button>
 				</div>
-
-		</section>
-		
+		</div>
+</div>
+<div>
+	<%@include file="../layout/bottom.jsp"%>
+</div>		
 	</body>
 	
 </html>
